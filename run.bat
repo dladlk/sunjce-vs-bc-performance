@@ -9,3 +9,6 @@
 
 @SET JAVA_PATH="C:\Program Files\Java\jdk-17\bin\java.exe"
 @%JAVA_PATH% -jar %JAR_PATH% %MAX_SIZE_MB%
+
+@SET JAVA_PATH="C:\Program Files\Java\jdk-20.0.1+9\bin\java.exe"
+@%JAVA_PATH% -jar %JAR_PATH% %MAX_SIZE_MB%
