@@ -1,6 +1,9 @@
 # sunjce-vs-bc-performance
 Compare performance of SunJCE Cipher for Peppol encryption algorithm vs Bouncy Castle
 
+Algorithm URI: http://www.w3.org/2009/xmlenc11#aes256-gcm
+Algorithm code: AES/GCM/NoPadding
+
 ## Results
 
 All time in ms.

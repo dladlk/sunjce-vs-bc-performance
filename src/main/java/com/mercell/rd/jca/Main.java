@@ -39,6 +39,8 @@ public class Main {
 
 	private static final boolean VERBOSE = false;
 
+	private static String ENCRYPTION_ALGORITHM = EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES256_GCM;
+
 	public static void main(String[] args) throws Exception {
 		int maxMBSize = -1;
 		if (args.length > 0) {
@@ -82,6 +84,8 @@ public class Main {
 			}
 		}
 
+		System.out.println("Algorithm URI: " + ENCRYPTION_ALGORITHM);
+		System.out.println("Algorithm: " + JCEMapper.translateURItoJCEID(ENCRYPTION_ALGORITHM));
 		String header1 = String.format("#### %s", javaVersion);
 		FileSizeResult fr = fileSizeResultList.get(0);
 		String header2 = String.format("#### %s vs. %s", fr.sun.provider, fr.bc.provider);
@@ -180,7 +184,7 @@ public class Main {
 		WSSConfig.init();
 
 		timer.stopStart("Create Cipher");
-		String algorithm = EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES256_GCM;
+		String algorithm = ENCRYPTION_ALGORITHM;
 		Cipher cipher = createCipher(algorithm, secretKey);
 
 		if (DO_READ_FILE_AT_FIRST) {
