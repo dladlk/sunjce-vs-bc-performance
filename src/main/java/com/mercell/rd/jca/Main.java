@@ -25,6 +25,7 @@ import org.apache.cxf.helpers.IOUtils;
 import org.apache.wss4j.common.ext.Attachment;
 import org.apache.wss4j.common.ext.WSSecurityException;
 import org.apache.wss4j.common.util.AttachmentUtils;
+import org.apache.wss4j.common.util.KeyUtils;
 import org.apache.wss4j.dom.engine.WSSConfig;
 import org.apache.xml.security.algorithms.JCEMapper;
 import org.apache.xml.security.encryption.XMLCipherUtil;
@@ -39,7 +40,7 @@ public class Main {
 
 	private static final boolean VERBOSE = false;
 
-	private static String ENCRYPTION_ALGORITHM = EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES256_GCM;
+	private static String ENCRYPTION_ALGORITHM = EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES128_GCM;
 
 	public static void main(String[] args) throws Exception {
 		int maxMBSize = -1;
@@ -84,8 +85,8 @@ public class Main {
 			}
 		}
 
-		System.out.println("Algorithm URI: " + ENCRYPTION_ALGORITHM);
-		System.out.println("Algorithm: " + JCEMapper.translateURItoJCEID(ENCRYPTION_ALGORITHM));
+		System.out.println("ALGORITHM URI:\t" + ENCRYPTION_ALGORITHM);
+		System.out.println("ALGORITHM ID:\t" + JCEMapper.translateURItoJCEID(ENCRYPTION_ALGORITHM));
 		String header1 = String.format("#### %s", javaVersion);
 		FileSizeResult fr = fileSizeResultList.get(0);
 		String header2 = String.format("#### %s vs. %s", fr.sun.provider, fr.bc.provider);
@@ -175,16 +176,16 @@ public class Main {
 
 		Timer timer = new Timer();
 
-		timer.start("Create key");
-		KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-		keyGen.init(256);
-		SecretKey secretKey = keyGen.generateKey();
-
 		timer.stopStart("Init WSSConfig");
 		WSSConfig.init();
-
-		timer.stopStart("Create Cipher");
+		
+		timer.start("Create key");
 		String algorithm = ENCRYPTION_ALGORITHM;
+        KeyGenerator keyGen = KeyUtils.getKeyGenerator(algorithm);
+        SecretKey secretKey = keyGen.generateKey();
+        
+		timer.stopStart("Create Cipher");
+		
 		Cipher cipher = createCipher(algorithm, secretKey);
 
 		if (DO_READ_FILE_AT_FIRST) {
