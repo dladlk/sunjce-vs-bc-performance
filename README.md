@@ -5,6 +5,22 @@ Algorithm URI: http://www.w3.org/2009/xmlenc11#aes256-gcm
 
 Algorithm code: AES/GCM/NoPadding
 
+## Steps
+
+1. Generate test file of given size with random binary contents, calculate its digest.
+1. Install or remove BC provider
+1. Init WSSConfig
+1. Create key like it is done in
+   https://github.com/apache/cxf/blob/dc4477f563acddc522018d9ef817304096b57a70/rt/ws/security/src/main/java/org/apache/cxf/ws/security/wss4j/policyhandlers/AsymmetricBindingHandler.java#L243-L245
+1. Create Cipher like it is done in
+   https://github.com/apache/ws-wss4j/blob/d7c26fcfc40f4a357ae0d6bf06308014167b5bca/ws-security-dom/src/main/java/org/apache/wss4j/dom/message/Encryptor.java#L419
+1. Read file without any action except counting bytes
+1. Encrypt file to file system like it is done in
+   https://github.com/apache/ws-wss4j/blob/d7c26fcfc40f4a357ae0d6bf06308014167b5bca/ws-security-common/src/main/java/org/apache/wss4j/common/util/AttachmentUtils.java#L562
+1. Decrypt result to file system like it is done in
+   https://github.com/apache/ws-wss4j/blob/d7c26fcfc40f4a357ae0d6bf06308014167b5bca/ws-security-common/src/main/java/org/apache/wss4j/common/util/AttachmentUtils.java#LL486C26-L486C26
+1. Calculate decrypted file digest and compare with original.
+
 ## Results
 
 All time in ms.
