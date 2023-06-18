@@ -21,7 +21,14 @@ Algorithm code: AES/GCM/NoPadding
    https://github.com/apache/ws-wss4j/blob/d7c26fcfc40f4a357ae0d6bf06308014167b5bca/ws-security-common/src/main/java/org/apache/wss4j/common/util/AttachmentUtils.java#LL486C26-L486C26
 1. Calculate decrypted file digest and compare with original.
 
-## Results
+## Some conclusions 
+
+1. **On encryption, SunJCE performs better then BC** - less than 300 ms on 100 MB vs. more than 1,5 second by BC
+1. **SunJCE decryption performance significantly degrades from 5 MB payload and more**. The worst performance is on Java 12 (even Java 8 performed better), but later versions are faster, although even Java 20 needs 11 minutes to decrypt 100 MB payload, when BC does it in less than 2 seconds for this (380 times faster!).
+1. For up to 5 MB of gzipped payload (Oxalis always gzips it, but other implementations can skip it) - the performance of decryption is relatively acceptable, <=3 seconds
+1. Starting from 10 MB SunJCE decryption exceeds 5 seconds, and *for 100 MB payload can take 11 mins (Java 20), 12 mins (Java 17), 38 mins (Java 12), 22 mins (Java 8)*.
+
+## Result tables
 
 All time in ms.
 
