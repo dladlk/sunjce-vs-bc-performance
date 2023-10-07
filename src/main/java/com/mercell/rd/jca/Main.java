@@ -171,21 +171,21 @@ public class Main {
 		if (useBC) {
 			Security.insertProviderAt(new org.bouncycastle.jce.provider.BouncyCastleProvider(), 1);
 		} else {
-			Security.removeProvider("BC");
+			Security.removeProvider(org.bouncycastle.jce.provider.BouncyCastleProvider.PROVIDER_NAME);
 		}
 
 		Timer timer = new Timer();
 
 		timer.stopStart("Init WSSConfig");
 		WSSConfig.init();
-		
+
 		timer.start("Create key");
 		String algorithm = ENCRYPTION_ALGORITHM;
-        KeyGenerator keyGen = KeyUtils.getKeyGenerator(algorithm);
-        SecretKey secretKey = keyGen.generateKey();
-        
+		KeyGenerator keyGen = KeyUtils.getKeyGenerator(algorithm);
+		SecretKey secretKey = keyGen.generateKey();
+
 		timer.stopStart("Create Cipher");
-		
+
 		Cipher cipher = createCipher(algorithm, secretKey);
 
 		if (DO_READ_FILE_AT_FIRST) {
@@ -203,6 +203,19 @@ public class Main {
 
 		RunResult runResult = new RunResult();
 		runResult.provider = cipher.getProvider().toString();
+		if (useBC) {
+			if (!runResult.provider.startsWith("BC version")) {
+				System.err.println("Cannot set BC provider, check your JRE for custom configuration!");
+				System.exit(-1);
+				return null;
+			}
+		} else {
+			if (!runResult.provider.startsWith("SunJCE version")) {
+				System.err.println("Cannot set SunJCE provider, check your JRE for custom configuration!");
+				System.exit(-1);
+				return null;
+			}
+		}
 		try {
 			try (InputStream sourceStream = new BufferedInputStream(new FileInputStream(testFile))) {
 				Attachment a = new Attachment();
