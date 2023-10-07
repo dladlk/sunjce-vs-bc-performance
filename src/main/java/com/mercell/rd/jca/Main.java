@@ -56,7 +56,7 @@ public class Main {
 		}
 		Main c = new Main();
 
-		float sizeMBList[] = new float[] { 0.1f, 0.5f, 1f, 5f, 10f, 100f };
+		float sizeMBList[] = new float[] { 0.1f, 0.5f, 1f, 5f, 10f, 20f, 30f, 40f, 50, 100f };
 
 		String javaVersion = "Java " + System.getProperty("java.version") + ": " + System.getProperty("java.vm.name") + " " + System.getProperty("java.vm.version");
 
