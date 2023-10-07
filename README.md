@@ -7,7 +7,7 @@ Algorithm code: AES/GCM/NoPadding
 
 ## Java 1.8 SunJCE cipher decryption
 
-![Chart](./blob/main/doc/chart.png)
+![Chart](https://github.com/dladlk/sunjce-vs-bc-performance/blob/main/doc/chart.png)
 
 ## Steps
 
@@ -32,7 +32,7 @@ Algorithm code: AES/GCM/NoPadding
 1. For up to 5 MB of gzipped payload (Oxalis always gzips it, but other implementations can skip it) - the performance of decryption is relatively acceptable, <=3 seconds
 1. Starting from 10 MB SunJCE decryption exceeds 5 seconds, and *for 100 MB payload can take 11 mins (Java 20), 12 mins (Java 17), 38 mins (Java 12), 22 mins (Java 8)*.
 1. But Java 21 solved this performance issue (although did not find any notes about it at https://www.oracle.com/java/technologies/javase/21all-relnotes.html)
-1. Java 21 - **DO NOT SWITCH TO BouncyCastle** as SunJCE performs better!
+1. Java 21 - **DO NOT SWITCH TO BouncyCastle** as SunJCE performs better on encryption, and almost the same as BC on decryption (see last table).
 
 ## Result tables
 
