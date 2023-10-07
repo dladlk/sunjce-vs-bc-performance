@@ -5,6 +5,10 @@ Algorithm URI: http://www.w3.org/2009/xmlenc11#aes128-gcm
 
 Algorithm code: AES/GCM/NoPadding
 
+## Java 1.8 SunJCE cipher decryption
+
+![Chart](./blob/main/doc/chart.png)
+
 ## Steps
 
 1. Generate test file of given size with random binary contents, calculate its digest.
