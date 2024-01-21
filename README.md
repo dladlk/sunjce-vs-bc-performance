@@ -106,7 +106,10 @@ All time in ms.
 | 100,0 MB | 255 | 1.435 | 0,2 | 1.851 | 1.533 | 1,2 |
 | 4500,0 MB | X | 61.168 | X | X | 81.971 | X |
 
-*Encryption/decryption of more than 2 GB* : SunJCE fails with exception "SunJCE provider only supports input size up to 2GB bytes"
+*Encryption/decryption of more than 2 GB* : SunJCE fails with exception 
+
+**SunJCE provider only supports input size up to 2147483647 bytes**
+
 Comment about it to `com.sun.crypto.provider.GaloisCounterMode.MAX_BUF_SIZE`: 
 
     // In NIST SP 800-38D, GCM input size is limited to be no longer
