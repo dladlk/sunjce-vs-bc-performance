@@ -104,3 +104,16 @@ All time in ms.
 | 40,0 MB | 104 | 561 | 0,2 | 733 | 670 | 1,1 |
 | 50,0 MB | 140 | 714 | 0,2 | 903 | 787 | 1,1 |
 | 100,0 MB | 255 | 1.435 | 0,2 | 1.851 | 1.533 | 1,2 |
+| 4500,0 MB | X | 61.168 | X | X | 81.971 | X |
+
+*Encryption/decryption of more than 2 GB* : SunJCE fails with exception "SunJCE provider only supports input size up to 2GB bytes"
+Comment about it to `com.sun.crypto.provider.GaloisCounterMode.MAX_BUF_SIZE`: 
+
+    // In NIST SP 800-38D, GCM input size is limited to be no longer
+    // than (2^36 - 32) bytes. Otherwise, the counter will wrap
+    // around and lead to a leak of plaintext.
+    // However, given the current GCM spec requirement that recovered
+    // text can only be returned after successful tag verification,
+    // we are bound by limiting the data size to the size limit of
+    // java byte array, e.g. Integer.MAX_VALUE, since all data
+    // can only be returned by the doFinal(...) call.
